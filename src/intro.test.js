@@ -27,4 +27,9 @@ describe('fizzBuzz', () => {
     it('should return Buzz if n is divisible by 5', () => {
         expect(fizzBuzz(10)).toBe("Buzz")
     })
+
+    it('should return stringyfied n if n is not divisible by 3 or 5', () => {
+        const n = 7
+        expect(fizzBuzz(n)).toBe(n.toString())
+    })
 })
