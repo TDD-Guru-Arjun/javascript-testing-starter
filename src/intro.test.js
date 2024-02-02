@@ -70,3 +70,82 @@ describe('calculateAverage', () => {
         expect(factorial(-2)).toBe(NaN);
     });
   })
+
+
+  describe('matchers examples', () => {
+    it('numbers', () => {
+        expect(1).toBe(1)
+        expect(1).not.toBe(2)
+        expect(1).toBeGreaterThan(0)
+        expect(1).toBeLessThan(2)
+        expect(1).toBeGreaterThanOrEqual(1)
+        expect(1).toBeLessThanOrEqual(1)
+
+        expect(1).toEqual(expect.any(Number))
+        expect(1).not.toEqual(expect.any(String))
+
+        expect(1).toEqual(expect.anything())
+        expect(undefined).not.toEqual(expect.anything())
+    })
+
+    it('floats', () => {
+        expect(2.5).toBeCloseTo(2.2, 0)
+        expect(0.1 + 0.2).toBeCloseTo(0.3, 5)
+
+        expect(2.5).not.toBeCloseTo(2.2, 1)
+    })
+
+    it('strings', () => {
+        expect('hello vitest').toMatch('hello')
+        expect('hello').not.toMatch('world')
+
+        expect('hello').toContain('h')
+        expect('hello').not.toContain('w')
+
+        expect('hello').toHaveLength(5)
+        expect('hello').not.toHaveLength(4)
+
+        expect('hello').toEqual('hello')
+        expect('hello').not.toEqual('world')
+
+        expect('hello').toEqual(expect.stringContaining('hell'))
+        expect('hello').not.toEqual(expect.stringContaining('world'))
+
+        expect('hello').toEqual(expect.stringMatching('hell'))
+        expect('hello').not.toEqual(expect.stringMatching('world'))
+
+        expect('hello').toEqual(expect.stringMatching(/hell/))
+        expect('hello').not.toEqual(expect.stringMatching(/world/))
+
+        expect('hello').toEqual(expect.stringMatching(new RegExp('hell')))
+        expect('hello').not.toEqual(expect.stringMatching(new RegExp('world')))
+    })
+
+    it('arrays', () => {
+        expect([1, 2, 3]).toContain(2)
+        expect([1, 2, 3]).not.toContain(4)
+
+        expect([1, 2, 3]).toHaveLength(3)
+        expect([1, 2, 3]).not.toHaveLength(2)
+
+        expect([1, 2, 3]).toEqual([1, 2, 3])
+        expect([1, 2, 3]).not.toEqual([1, 2, 4])
+
+        expect([1, 2, 3]).toEqual(expect.arrayContaining([1, 2]))
+        expect([1, 2, 3]).not.toEqual(expect.arrayContaining([1, 4]))
+    })
+
+    it('objects', () => {
+        expect({a: 1}).toEqual({a: 1})
+        expect({a: 1}).not.toEqual({a: 2})
+
+        expect({a: 1, b: 2}).toMatchObject({a: 1})
+        expect({a: 1, b: 2}).not.toMatchObject({c: 2})
+
+        expect({a: 1, b: 2}).toHaveProperty('a')
+        expect({a: 1, b: 2}).not.toHaveProperty('c')
+
+        expect({a: 1, b: 2}).toEqual(expect.objectContaining({a: 1}))
+        expect({a: 1, b: 2}).not.toEqual(expect.objectContaining({c: 2}))
+    })
+   })
