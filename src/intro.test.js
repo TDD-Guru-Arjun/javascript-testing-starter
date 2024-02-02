@@ -50,7 +50,7 @@ describe('calculateAverage', () => {
     it('should return the number if the array has only one number', () => {
         expect(calculateAverage([1])).toBe(1)
     });
- })
+})
 
  describe('factorial', () => {
     it('should return 1 if the arg is 0', () => {
@@ -69,7 +69,7 @@ describe('calculateAverage', () => {
     it('should return NaN if the given the arg < 0', () => {
         expect(factorial(-2)).toBe(NaN);
     });
-  })
+})
 
   describe('matchers examples', () => {
     it('numbers', () => {
@@ -147,4 +147,4 @@ describe('calculateAverage', () => {
         expect({a: 1, b: 2}).toEqual(expect.objectContaining({a: 1}))
         expect({a: 1, b: 2}).not.toEqual(expect.objectContaining({c: 2}))
     })
-   })
+})
