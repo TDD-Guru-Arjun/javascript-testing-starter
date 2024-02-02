@@ -71,7 +71,6 @@ describe('calculateAverage', () => {
     });
   })
 
-
   describe('matchers examples', () => {
     it('numbers', () => {
         expect(1).toBe(1)
