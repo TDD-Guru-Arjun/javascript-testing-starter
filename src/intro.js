@@ -16,3 +16,10 @@ export function fizzBuzz(n) {
   }
   return n.toString();
 }
+
+export function calculateAverage(numbers) {
+  if (!Array.isArray(numbers) || numbers.length === 0) {
+    return NaN;
+  }
+  return numbers.reduce((acc, n) => acc + n, 0) / numbers.length;
+}
