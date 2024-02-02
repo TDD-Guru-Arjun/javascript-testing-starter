@@ -23,3 +23,11 @@ export function calculateAverage(numbers) {
   }
   return numbers.reduce((acc, n) => acc + n, 0) / numbers.length;
 }
+
+export function factorial(n) {
+  if (n === 0) {
+    return 1;
+  } else {
+    return n * factorial(n - 1);
+  }
+}
