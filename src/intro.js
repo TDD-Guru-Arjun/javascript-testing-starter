@@ -25,6 +25,9 @@ export function calculateAverage(numbers) {
 }
 
 export function factorial(n) {
+  if (n < 0) {
+    return NaN;
+  }
   if (n === 0) {
     return 1;
   } else {

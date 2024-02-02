@@ -65,4 +65,8 @@ describe('calculateAverage', () => {
         expect(factorial(3)).toBe(6);
         expect(factorial(6)).toBe(720);
     });
+
+    it('should return NaN if the given the arg < 0', () => {
+        expect(factorial(-2)).toBe(NaN);
+    });
   })
