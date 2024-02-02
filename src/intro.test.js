@@ -46,4 +46,8 @@ describe('calculateAverage', () => {
     it('should return the average of the numbers in the array', () => {
         expect(calculateAverage([1, 2, 3, 4, 5])).toBe(3)
     });
+
+    it('should return the number if the array has only one number', () => {
+        expect(calculateAverage([1])).toBe(1)
+    });
  })
