@@ -34,7 +34,7 @@ export function validateUserInput(username, age) {
     errors.push('Invalid username');
   }
 
-  if (typeof age !== 'number' || age < 18) {
+  if (typeof age !== 'number' || age < 18 || age > 110) {
     errors.push('Invalid age');
   }
 

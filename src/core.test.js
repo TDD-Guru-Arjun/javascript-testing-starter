@@ -105,7 +105,11 @@ describe('core', () => {
         })
 
         it('should return "Invalid age" if given age is less than 18', () => {
-            expect(validateUserInput('john', 10)).toBe(invalidAge);
+            expect(validateUserInput('jane', 10)).toBe(invalidAge);
+        })
+
+        it('should return "Invalid age" if given age is greater than 110', () => {
+            expect(validateUserInput('jane', 120)).toBe(invalidAge);
         })
 
         it('should return "Invalid username, Invalid age" if given both invalid username and age', () => {
