@@ -1,5 +1,5 @@
 import {describe, it, expect } from "vitest"
-import { calculateDiscount, getCoupons, isPriceInRange, isValidUsername, validateUserInput } from "./core";
+import { calculateDiscount, canDrive, getCoupons, isPriceInRange, isValidUsername, validateUserInput } from "./core";
 
 describe('core', () => {
     it('getCoupons', () => {
@@ -166,6 +166,54 @@ describe('core', () => {
             expect(isValidUsername({})).toBe(false);
             expect(isValidUsername([])).toBe(false);
             expect(isValidUsername("")).toBe(false);
+        })
+    });
+
+    describe('canDrive without parameterized', () => {
+        const countries = {US: 'US', UK: 'UK', INVALID: "UNKNOWN"}
+
+        it('should return true if age is greater than or equal to legal driving age', () => {
+            expect(canDrive(18, countries.US)).toBe(true);
+            expect(canDrive(21, countries.UK)).toBe(true);
+        })
+
+        it('should return false if age is less than legal driving age', () => {
+            expect(canDrive(15, countries.US)).toBe(false);
+            expect(canDrive(10, countries.UK)).toBe(false);
+        })
+
+        it('should return true if age is equal to the minimum legal driving age', () => {
+            expect(canDrive(15, countries.US)).toBe(false);
+            expect(canDrive(10, countries.UK)).toBe(false);
+        })
+
+        it('should throw invalid age error if age is not a number', () => {
+            expect(canDrive('18', countries.US)).toMatch(/invalid/i);
+            expect(canDrive('21', countries.UK)).toMatch(/invalid/i);
+        })
+
+        it('should throw invalid country code error if country code is unknown', () => {
+            expect(canDrive(18, countries.INVALID)).toMatch(/invalid/i);
+        });
+    });
+
+    describe('canDrive with parameterized', () => {
+        const countries = {US: 'US', UK: 'UK', INVALID: "UNKNOWN"}
+
+        it.each([
+            {age: 18, countryCode: countries.US, expected: true},
+            {age: 21, countryCode: countries.UK, expected: true},
+            {age: 15, countryCode: countries.US, expected: false},
+            {age: 10, countryCode: countries.UK, expected: false},
+            {age: 16, countryCode: countries.US, expected: true},
+            {age: 17, countryCode: countries.UK, expected: true},
+            {age: '18', countryCode: countries.US, expected: 'Invalid age'},
+            {age: '21', countryCode: countries.UK, expected: 'Invalid age'},
+            {age: 18, countryCode: countries.INVALID, expected: 'Invalid country code'},
+        ])
+        ('should return $expected if age is $age and country code is $countryCode',
+        ({age, countryCode, expected}) => {
+            expect(canDrive(age, countryCode)).toBe(expected);
         })
     });
 })
