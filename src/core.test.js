@@ -1,4 +1,4 @@
-import {describe, it, expect } from "vitest"
+import {describe, it, expect, beforeAll, beforeEach, afterAll, afterEach } from "vitest"
 import { calculateDiscount, canDrive, fetchData, getCoupons, isPriceInRange, isValidUsername, validateUserInput } from "./core";
 
 describe('core', () => {
@@ -261,6 +261,33 @@ describe('core', () => {
                     expect(error.reason).toBe('Error fetching data');
                 }
             })
+         })
+
+         describe('setup and teardown example', () => {
+            let data;
+            beforeAll(() => {
+                console.log("beforeAll");
+            });
+
+            beforeEach(() => {
+                console.log("beforeEach");
+            });
+
+            afterAll(() => {
+                console.log("afterAll");
+            });
+
+            afterEach(() => {
+                console.log("afterEach");
+            });
+
+            it('test case 1', () => {
+                console.log("test case 1");
+            });
+
+            it('test case 2', () => {
+                console.log("test case 2");
+            });
          })
      })
 })
