@@ -1,5 +1,5 @@
 import {describe, it, expect } from "vitest"
-import { calculateDiscount, canDrive, getCoupons, isPriceInRange, isValidUsername, validateUserInput } from "./core";
+import { calculateDiscount, canDrive, fetchData, getCoupons, isPriceInRange, isValidUsername, validateUserInput } from "./core";
 
 describe('core', () => {
     it('getCoupons', () => {
@@ -230,4 +230,37 @@ describe('core', () => {
             expect(isPriceInRange(price, min, max)).toBe(result);
         })
     })
+
+    describe('fetchData promise and async/await', () => {
+        describe('handle successful fetch', () => {
+            it('should resolve a promise that will return an array of numbers', () => {
+                fetchData().then(data => {
+                    expect(data).toEqual([1, 2, 3]);
+                })
+            })
+
+            it('should resolve a promise using async/await that will return an array of numbers using async/await', async () => {
+                const data = await fetchData();
+                expect(data).toEqual([1, 2, 3]);
+            })
+         })
+
+         describe('handle fetch failure', () => {
+            it('should handle a rejected promise that throws an error', () => {
+                fetchData(500).catch(error => {
+                    expect(error).toHaveProperty('reason')
+                    expect(error.reason).toBe('Error fetching data');
+                })
+            })
+
+            it('should handle a rejected promise using async/await that throws an error', async () => {
+                try {
+                    await fetchData(500);
+                } catch (error) {
+                    expect(error).toHaveProperty('reason')
+                    expect(error.reason).toBe('Error fetching data');
+                }
+            })
+         })
+     })
 })
