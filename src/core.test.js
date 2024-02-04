@@ -1,5 +1,5 @@
 import {describe, it, expect, beforeAll, beforeEach, afterAll, afterEach } from "vitest"
-import { calculateDiscount, canDrive, fetchData, getCoupons, isPriceInRange, isValidUsername, validateUserInput } from "./core";
+import { Stack, calculateDiscount, canDrive, createProduct, fetchData, getCoupons, isPriceInRange, isStrongPassword, isValidUsername, validateUserInput } from "./core";
 
 describe('core', () => {
     it('getCoupons', () => {
@@ -290,4 +290,121 @@ describe('core', () => {
             });
          })
      })
+
+     describe('Stack', () => {
+
+        it('should push an item to the stack', () => {
+            const stack = new Stack();
+            stack.push(1);
+            expect(stack.items).toEqual([1]);
+        })
+
+        it('should pop an item from the stack', () => {
+            const stack = new Stack();
+            stack.push(1);
+            stack.push(2);
+            stack.push(3);
+            expect(stack.pop()).toBe(3);
+            expect(stack.pop()).toBe(2);
+            expect(stack.pop()).toBe(1);
+        })
+
+        it('should peek the top item from the stack', () => {
+            const stack = new Stack();
+            stack.push(1);
+            stack.push(2);
+            stack.push(3);
+            expect(stack.peek()).toBe(3);
+        })
+
+        it('should check if the stack is empty', () => {
+            const stack = new Stack();
+            expect(stack.isEmpty()).toBe(true);
+            stack.push(1);
+            expect(stack.isEmpty()).toBe(false);
+        })
+
+        it('should return the size of the stack', () => {
+            const stack = new Stack();
+            expect(stack.size()).toBe(0);
+            stack.push(1);
+            stack.push(2);
+            stack.push(3);
+            expect(stack.size()).toBe(3);
+        })
+
+        it('should clear the stack', () => {
+            const stack = new Stack();
+            stack.push(1);
+            stack.push(2);
+            stack.push(3);
+            stack.clear();
+            expect(stack.isEmpty()).toBe(true);
+        })
+
+        it('should throw an error if pop from an empty stack', () => {
+            const stack = new Stack();
+            expect(() => stack.pop()).toThrow('Stack is empty');
+        })
+
+        it('should throw an error if peek from an empty stack', () => {
+            const stack = new Stack();
+            expect(() => stack.peek()).toThrow('Stack is empty');
+        })
+     });
+
+     describe('createProduct', () => {
+
+        it('should return an object with success true and message if given valid product', () => {
+            const product = { name: 'Product 1', price: 100 };
+            expect(createProduct(product)).toEqual({ success: true, message: 'Product was successfully published' });
+        })
+
+        it('should return an object with success false and error if name is missing', () => {
+            const product = { price: 100 };
+            expect(createProduct(product)).toEqual({ success: false, error: { code: 'invalid_name', message: 'Name is missing' } });
+        })
+
+        it('should return an object with success false and error if price is missing', () => {
+            const product = { name: 'Product 1', price: 0};
+            expect(createProduct(product)).toEqual({ success: false, error: { code: 'invalid_price', message: 'Price is missing' } });
+        })
+
+        it('should return an object with success false and error if name and price are missing', () => {
+            const product = {};
+            expect(createProduct(product)).toEqual({ success: false, error: { code: 'invalid_name', message: 'Name is missing' } });
+        })
+
+        it('should return an object with success false and error if name and price are missing using toMatchObject', () => {
+            const product = {};
+            expect(createProduct(product)).toMatchObject({ success: false, error: { code: 'invalid_name', message: 'Name is missing' } });
+        })
+
+        it('should return an object with success false and error if name and price are missing using toHaveProperty', () => {
+            const product = {};
+            expect(createProduct(product)).toHaveProperty('success', false);
+            expect(createProduct(product)).toHaveProperty('error', { code: 'invalid_name', message: 'Name is missing' });
+        })
+
+        it('should return an object with success false and error if name and price are missing using toMatchObject', () => {
+            const product = {};
+            expect(createProduct(product)).toMatchObject({ success: false, error: { code: 'invalid_name', message: 'Name is missing' } });
+        })
+      })
+
+      describe('isStrongPassword', () => {
+
+        const characters = 'Ab1'
+        const minLength = 8;
+
+        it('should return true if password is strong', () => {
+            expect(isStrongPassword(characters.repeat(minLength))).toBe(true);
+        })
+
+        it('should return false if password is not strong', () => {
+            expect(isStrongPassword('x'.repeat(minLength - 1))).toBe(false);
+            expect(isStrongPassword('a')).toBe(false);
+            expect(isStrongPassword('A')).toBe(false);
+        })
+       })
 })
