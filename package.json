@@ -8,6 +8,7 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest --coverage",
+    "coverage": "vitest --coverage",
     "build": "vite build",
     "preview": "vite preview"
   },
