@@ -1,5 +1,5 @@
 import {describe, it, expect } from "vitest"
-import { calculateDiscount, getCoupons, validateUserInput } from "./core";
+import { calculateDiscount, getCoupons, isPriceInRange, isValidUsername, validateUserInput } from "./core";
 
 describe('core', () => {
     it('getCoupons', () => {
@@ -117,4 +117,55 @@ describe('core', () => {
             expect(validateUserInput(3, 2)).toBe(errorMessage);
         })
     });
-});
+
+    describe('isPriceInRange', () => {
+        it('should return true if price is in range', () => {
+            expect(isPriceInRange(100, 50, 150)).toBe(true);
+        })
+
+        it('should return false if price is not in range', () => {
+            expect(isPriceInRange(100, 150, 200)).toBe(false);
+            expect(isPriceInRange(300, 150, 200)).toBe(false);
+        })
+
+        it('should return true if price is equal to min', () => {
+            expect(isPriceInRange(100, 100, 200)).toBe(true);
+        })
+
+        it('should return true if price is equal to max', () => {
+            expect(isPriceInRange(200, 100, 200)).toBe(true);
+        })
+    })
+
+    describe('isValidUsername', () => {
+        const minLength = 5;
+        const maxLength = 15;
+
+        it('should return true if username is in range', () => {
+            expect(isValidUsername('j'.repeat(minLength + 1))).toBe(true);
+            expect(isValidUsername('j'.repeat(maxLength - 1))).toBe(true);
+        })
+
+        it('should return false if username is not in range', () => {
+            expect(isValidUsername('j'.repeat(minLength - 1))).toBe(false);
+            expect(isValidUsername('A'.repeat(maxLength + 1))).toBe(false);
+        })
+
+        it('should return true if username is equal to min', () => {
+            expect(isValidUsername('j'.repeat(minLength))).toBe(true);
+        })
+
+        it('should return true if username is equal to max', () => {
+            expect(isValidUsername('j'.repeat(maxLength))).toBe(true);
+        })
+
+        it('should return false if username is not string', () => {
+            expect(isValidUsername(maxLength)).toBe(false);
+            expect(isValidUsername(null)).toBe(false);
+            expect(isValidUsername(undefined)).toBe(false);
+            expect(isValidUsername({})).toBe(false);
+            expect(isValidUsername([])).toBe(false);
+            expect(isValidUsername("")).toBe(false);
+        })
+    });
+})
