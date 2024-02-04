@@ -292,15 +292,18 @@ describe('core', () => {
      })
 
      describe('Stack', () => {
+        let stack;
+
+        beforeEach(() => {
+            stack = new Stack();
+        });
 
         it('should push an item to the stack', () => {
-            const stack = new Stack();
             stack.push(1);
             expect(stack.items).toEqual([1]);
         })
 
         it('should pop an item from the stack', () => {
-            const stack = new Stack();
             stack.push(1);
             stack.push(2);
             stack.push(3);
@@ -310,7 +313,6 @@ describe('core', () => {
         })
 
         it('should peek the top item from the stack', () => {
-            const stack = new Stack();
             stack.push(1);
             stack.push(2);
             stack.push(3);
@@ -318,14 +320,12 @@ describe('core', () => {
         })
 
         it('should check if the stack is empty', () => {
-            const stack = new Stack();
             expect(stack.isEmpty()).toBe(true);
             stack.push(1);
             expect(stack.isEmpty()).toBe(false);
         })
 
         it('should return the size of the stack', () => {
-            const stack = new Stack();
             expect(stack.size()).toBe(0);
             stack.push(1);
             stack.push(2);
@@ -334,7 +334,6 @@ describe('core', () => {
         })
 
         it('should clear the stack', () => {
-            const stack = new Stack();
             stack.push(1);
             stack.push(2);
             stack.push(3);
@@ -343,12 +342,10 @@ describe('core', () => {
         })
 
         it('should throw an error if pop from an empty stack', () => {
-            const stack = new Stack();
             expect(() => stack.pop()).toThrow('Stack is empty');
         })
 
         it('should throw an error if peek from an empty stack', () => {
-            const stack = new Stack();
             expect(() => stack.peek()).toThrow('Stack is empty');
         })
      });
