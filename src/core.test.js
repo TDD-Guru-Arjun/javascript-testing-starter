@@ -216,4 +216,18 @@ describe('core', () => {
             expect(canDrive(age, countryCode)).toBe(expected);
         })
     });
+
+    describe('isPriceInRange with parameterized', () => {
+        it.each([
+            {price: 100, min: 50, max: 150, result: true},
+            {price: 100, min: 150, max: 200, result: false},
+            {price: 300, min: 150, max: 200, result: false},
+            {price: 100, min: 100, max: 200, result: true},
+            {price: 200, min: 100, max: 200, result: true},
+        ])
+        ('should return $result if price is $price and range is $min - $max',
+        ({price, min, max, result}) => {
+            expect(isPriceInRange(price, min, max)).toBe(result);
+        })
+    })
 })
