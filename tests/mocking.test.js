@@ -167,35 +167,33 @@ describe('submitOrder', () => {
 });
 
 describe('signUp - partial mocking example', () => {
+    const email = 'jane.doe@example.com'
+    const invalidEmail = 'jane.doe.example.com'
     beforeEach(() => {
         sendEmail.mockReset();
     });
 
     test('should return true if email is valid', async () => {
-        const email = 'jane.doe@example.com'
-
         expect(signUp(email)).resolves.toBe(true)
-
     })
 
     test('should return false if email is invalid', async () => {
-        const email = 'jane.doe.example.com'
-
-        expect(signUp(email)).resolves.toBe(false)
+        expect(signUp(invalidEmail)).resolves.toBe(false)
     })
 
     test('should call sendEmail if email is valid', async () => {
-        const email = 'jane.doe@example.com'
-
         await signUp(email)
+        const args = vi.mocked(sendEmail).mock.calls[0]
 
+        console.log(args)
+
+        expect(args[0]).toBe(email)
+        expect(args[1]).toMatch(/welcome/i)
         expect(vi.mocked(sendEmail)).toHaveBeenCalledWith(email, 'Welcome aboard!');
     })
 
     test('should not call sendEmail if email is invalid', async () => {
-        const email = 'jane.doe.example.com'
-
-        await signUp(email)
+        await signUp(invalidEmail)
 
         expect(vi.mocked(sendEmail)).not.toHaveBeenCalled();
     })
