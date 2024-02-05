@@ -89,6 +89,8 @@ describe('getShippingInfo', () => {
 
         const shippingInfo = getShippingInfo('US')
 
-        expect(shippingInfo).toMatch('Shipping Cost: $10 (2 Days)')
+        expect(shippingInfo).toMatch('$10')
+        expect(shippingInfo).toMatch(/2 Days/i)
+        expect(shippingInfo).toMatch(/shipping cost: \$10 \(2 Days\)/i)
     });
 });
