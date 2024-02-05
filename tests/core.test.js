@@ -1,5 +1,5 @@
 import {describe, it, expect, beforeAll, beforeEach, afterAll, afterEach } from "vitest"
-import { Stack, calculateDiscount, canDrive, createProduct, fetchData, getCoupons, isPriceInRange, isStrongPassword, isValidUsername, validateUserInput } from "./core";
+import { Stack, calculateDiscount, canDrive, createProduct, fetchData, getCoupons, isPriceInRange, isStrongPassword, isValidUsername, validateUserInput } from "../src/core";
 
 describe('core', () => {
     it('getCoupons', () => {

@@ -1,5 +1,5 @@
 import {describe, it, expect } from "vitest"
-import { calculateAverage, factorial, fizzBuzz, max } from "./intro"
+import { calculateAverage, factorial, fizzBuzz, max } from "../src/intro"
 
 describe('max', () => {
     it('should return the b if b > a', () => {
