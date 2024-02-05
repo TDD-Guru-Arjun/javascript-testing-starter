@@ -1,5 +1,5 @@
 import { beforeEach, vi, describe, test, expect } from "vitest";
-import { getPriceInCurrency, getShippingInfo, login, renderPage, signUp, submitOrder } from "../src/mocking";
+import { getPriceInCurrency, getShippingInfo, isOnline, login, renderPage, signUp, submitOrder } from "../src/mocking";
 import { getExchangeRate } from "../src/libs/currency";
 import { getShippingQuote } from "../src/libs/shipping";
 import { trackPageView } from "../src/libs/analytics";
@@ -221,5 +221,23 @@ describe('login - spy example', () => {
         const value = spy.mock.results[0].value
         console.log(value);
         expect(sendEmail).toHaveBeenCalledWith(email, value.toString());
+    })
+});
+
+describe('isOnline', () => {
+    test('should return true if current time is within available hours', () => {
+        vi.setSystemTime(new Date('2021-01-01 09:00'))
+        expect(isOnline()).toBe(true)
+
+        vi.setSystemTime(new Date('2021-01-01 19:00'))
+        expect(isOnline()).toBe(true)
+    })
+
+    test('should return false if current time is outside available hours', () => {
+        vi.setSystemTime(new Date('2024-01-01 07:59'))
+        expect(isOnline()).toBe(false)
+
+        vi.setSystemTime(new Date('2024-01-01 20:01'))
+        expect(isOnline()).toBe(false)
     })
 });
