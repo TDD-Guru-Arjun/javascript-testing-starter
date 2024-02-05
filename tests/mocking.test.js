@@ -1,10 +1,11 @@
 import { beforeEach, vi, describe, test, expect } from "vitest";
-import { getPriceInCurrency, getShippingInfo, renderPage, signUp, submitOrder } from "../src/mocking";
+import { getPriceInCurrency, getShippingInfo, login, renderPage, signUp, submitOrder } from "../src/mocking";
 import { getExchangeRate } from "../src/libs/currency";
 import { getShippingQuote } from "../src/libs/shipping";
 import { trackPageView } from "../src/libs/analytics";
 import { charge } from "../src/libs/payment";
 import { sendEmail } from "../src/libs/email";
+import security from "../src/libs/security";
 
 vi.mock('../src/libs/currency')
 vi.mock('../src/libs/shipping')
@@ -18,6 +19,13 @@ vi.mock('../src/libs/email', async (originalImport) => {
         }
     }
 )
+vi.mock('../src/libs/security', async (originalImport) => {
+    const originalModule = await originalImport()
+    return {
+        ...originalModule,
+        sendEmail: vi.fn()
+    }
+})
 
 describe('Test suite', () => {
     test('mock example 01 return value', () => {
@@ -196,5 +204,21 @@ describe('signUp - partial mocking example', () => {
         await signUp(invalidEmail)
 
         expect(vi.mocked(sendEmail)).not.toHaveBeenCalled();
+    })
+});
+
+describe('login - spy example', () => {
+    const email = 'jane.doe@example.com'
+    beforeEach(() => {
+        sendEmail.mockReset();
+    });
+    test('should sendEmail with correct one-time login code', async () => {
+        const spy = vi.spyOn(security, 'generateCode')
+
+        await login(email)
+
+        const value = spy.mock.results[0].value
+        console.log(value);
+        expect(sendEmail).toHaveBeenCalledWith(email, value.toString());
     })
 });
