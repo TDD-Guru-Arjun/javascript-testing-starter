@@ -116,8 +116,8 @@ describe("matchers examples", () => {
     expect("hello").toEqual(expect.stringMatching(/hell/));
     expect("hello").not.toEqual(expect.stringMatching(/world/));
 
-    expect("hello").toEqual(expect.stringMatching(new RegExp("hell")));
-    expect("hello").not.toEqual(expect.stringMatching(new RegExp("world")));
+    expect("hello").toEqual(expect.stringMatching(/hell/i));
+    expect("hello").not.toEqual(expect.stringMatching(/world/i));
   });
 
   it("arrays", () => {
