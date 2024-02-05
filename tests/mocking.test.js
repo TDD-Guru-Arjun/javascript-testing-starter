@@ -1,10 +1,12 @@
-import { vi, describe, test, expect } from "vitest";
-import { getPriceInCurrency, getShippingInfo } from "../src/mocking";
+import { beforeEach, vi, describe, test, expect } from "vitest";
+import { getPriceInCurrency, getShippingInfo, renderPage } from "../src/mocking";
 import { getExchangeRate } from "../src/libs/currency";
 import { getShippingQuote } from "../src/libs/shipping";
+import { trackPageView } from "../src/libs/analytics";
 
 vi.mock('../src/libs/currency')
 vi.mock('../src/libs/shipping')
+vi.mock('../src/libs/analytics')
 
 
 describe('Test suite', () => {
@@ -44,6 +46,7 @@ describe('Test suite', () => {
 
         try {
             await greet()
+            expect(true).toBe(false)
         } catch (error) {
             console.log(error)
         }
@@ -77,7 +80,7 @@ describe('getPriceInCurrency', () => {
 
 describe('getShippingInfo', () => {
     test('should return "Shipping Unavailable" if quote can not be fetched', () => {
-        // vi.mocked(getShippingQuote).mockReturnValue(null)
+        vi.mocked(getShippingQuote).mockReturnValue(null)
 
         const shippingInfo = getShippingInfo('US')
 
@@ -92,5 +95,22 @@ describe('getShippingInfo', () => {
         expect(shippingInfo).toMatch('$10')
         expect(shippingInfo).toMatch(/2 Days/i)
         expect(shippingInfo).toMatch(/shipping cost: \$10 \(2 Days\)/i)
+    });
+});
+
+describe('renderPage', () => {
+    beforeEach(() => {
+        trackPageView.mockReset();
+    });
+    test('should return correct content', async () => {
+        const result = await renderPage()
+
+        expect(result).toMatch(/content/i)
+    });
+
+    test('should call trackPageView', async () => {
+        await renderPage()
+
+        expect(trackPageView).toHaveBeenCalledWith('/home');
     });
 });
