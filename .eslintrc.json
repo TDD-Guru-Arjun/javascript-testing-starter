@@ -14,6 +14,6 @@
     "no-unused-vars": "warn",
     "no-undef": "warn",
     "quotes": "off",
-    "semi": "off"
+    "semi": ["error", "always"]
   }
 }
