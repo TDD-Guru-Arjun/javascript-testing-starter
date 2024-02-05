@@ -9,6 +9,7 @@
     "test:ui": "vitest --ui",
     "test:coverage": "vitest --coverage",
     "coverage": "vitest --coverage",
+    "format": "prettier --write .",
     "build": "vite build",
     "preview": "vite preview"
   },
