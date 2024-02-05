@@ -1,13 +1,14 @@
 import { beforeEach, vi, describe, test, expect } from "vitest";
-import { getPriceInCurrency, getShippingInfo, renderPage } from "../src/mocking";
+import { getPriceInCurrency, getShippingInfo, renderPage, submitOrder } from "../src/mocking";
 import { getExchangeRate } from "../src/libs/currency";
 import { getShippingQuote } from "../src/libs/shipping";
 import { trackPageView } from "../src/libs/analytics";
+import { charge } from "../src/libs/payment";
 
 vi.mock('../src/libs/currency')
 vi.mock('../src/libs/shipping')
 vi.mock('../src/libs/analytics')
-
+vi.mock('../src/libs/payment')
 
 describe('Test suite', () => {
     test('mock example 01 return value', () => {
@@ -112,5 +113,44 @@ describe('renderPage', () => {
         await renderPage()
 
         expect(trackPageView).toHaveBeenCalledWith('/home');
+    });
+});
+
+
+describe('submitOrder', () => {
+    beforeEach(() => {
+        charge.mockReset();
+    });
+    test('should return success if payment is successful', async () => {
+        const creditCard = '1234567890'
+        const order = { totalAmount: 100 }
+
+        vi.mocked(charge).mockResolvedValue({ status: 'succeeded' })
+
+        const result = await submitOrder(order, creditCard)
+
+        expect(result).toEqual({ success: true })
+    });
+
+    test('should return error if payment is failed', async () => {
+        const creditCard = '1234567890'
+        const order = { totalAmount: 100 }
+
+        vi.mocked(charge).mockResolvedValue({ status: 'failed' })
+
+        const result = await submitOrder(order, creditCard)
+
+        expect(result).toEqual({ success: false, error: 'payment_error' })
+    });
+
+    test('should call charge with correct parameters', async () => {
+        const creditCard = '1234567890'
+        const order = { totalAmount: 100 }
+
+        vi.mocked(charge).mockResolvedValue({ status: 'succeeded' })
+
+        await submitOrder(order, creditCard)
+
+        expect(charge).toHaveBeenCalledWith(creditCard, order.totalAmount);
     });
 });
