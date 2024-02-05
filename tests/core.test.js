@@ -272,24 +272,23 @@ describe("core", () => {
 
     describe("handle fetch failure", () => {
       it("should handle a rejected promise that throws an error", () => {
-        fetchData(500).catch((error) => {
-          expect(error).toHaveProperty("reason");
-          expect(error.reason).toBe("Error fetching data");
+        fetchData(true).catch((error) => {
+          expect(error).toHaveProperty("message");
+          expect(error.message).toBe("Error fetching data");
         });
       });
 
       it("should handle a rejected promise using async/await that throws an error", async () => {
         try {
-          await fetchData(500);
+          await fetchData(true);
         } catch (error) {
-          expect(error).toHaveProperty("reason");
-          expect(error.reason).toBe("Error fetching data");
+          expect(error).toHaveProperty("message");
+          expect(error.message).toBe("Error fetching data");
         }
       });
     });
 
     describe("setup and teardown example", () => {
-      let data;
       beforeAll(() => {
         console.log("beforeAll");
       });
