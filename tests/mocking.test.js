@@ -198,6 +198,7 @@ describe('signUp - partial mocking example', () => {
         expect(args[0]).toBe(email)
         expect(args[1]).toMatch(/welcome/i)
         expect(vi.mocked(sendEmail)).toHaveBeenCalledWith(email, 'Welcome aboard!');
+        expect(sendEmail).toHaveBeenCalledOnce()
     })
 
     test('should not call sendEmail if email is invalid', async () => {
